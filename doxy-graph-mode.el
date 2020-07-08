@@ -54,30 +54,36 @@
 	)
 
 ;; Opens new buffer with pdf call graph.
-(defun doxy-graph-open-graph ()
+(defun doxy-graph-open-call-graph ()
 	(interactive)	
-	(find-file-other-window (concat doxy-graph--latex-path (doxy-graph-filename (thing-at-point 'word 'no-properties)) ".pdf"))
+	(find-file-other-window (concat doxy-graph--latex-path (doxy-graph-filename (thing-at-point 'word 'no-properties) "_cgraph") ".pdf"))
 	)
 
-;; Parses latex file to obtain pdf call graph
-(defun doxy-graph-get-pdf-filename (latex-file function-name)
+;; Opens new buffer with pdf call graph.
+(defun doxy-graph-open-reverse-call-graph ()
+	(interactive)	
+	(find-file-other-window (concat doxy-graph--latex-path (doxy-graph-filename (thing-at-point 'word 'no-properties) "_icgraph") ".pdf"))
+	)
+
+;; Parses latex file to obtain pdf call graph.
+(defun doxy-graph-get-pdf-filename (latex-file function-name graph-type)
 	(with-temp-buffer
 		(insert-file-contents latex-file)
 		(search-forward function-name)
 		(search-forward "includegraphics")
 		(let
-				((begin-pos (search-forward "{"))
-				 (end-pos (search-forward "graph"))
+				((end-pos (search-forward graph-type))
+				 (begin-pos (search-backward "{"))
 				 )
-			(buffer-substring begin-pos end-pos)
+			(buffer-substring (+ begin-pos 1) end-pos)
 			)
 		)
 	)
 
 ;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
-(defun doxy-graph-filename (function-name)
+(defun doxy-graph-filename (function-name graph-type)
 	(interactive)
-	(doxy-graph-get-pdf-filename (concat doxy-graph--latex-path (doxy-graph-latex-file)) function-name)
+	(doxy-graph-get-pdf-filename (concat doxy-graph--latex-path (doxy-graph-latex-file)) function-name graph-type)
 	)
 
 ;; Keymap.
@@ -91,7 +97,8 @@
 	(define-key doxy-graph-mode-map (kbd "<C-f1>") 'doxy-graph-help)
 	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-get-word-at-point)
 	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-file-name-base)
-	(define-key doxy-graph-mode-map (kbd "<C-f5>") 'doxy-graph-open-graph)
+	(define-key doxy-graph-mode-map (kbd "<C-f5>") 'doxy-graph-open-call-graph)
+	(define-key doxy-graph-mode-map (kbd "<C-f6>") 'doxy-graph-open-reverse-call-graph)
 	)
 
 ;;;###autoload
