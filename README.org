@@ -13,6 +13,8 @@ You can invoque ~doxy-graph-mode~ commad =M x doxy-graph-mode=.
 When mini mode is active you can position the cursor over function
 name and visualize call graph and inverse call graph.
 
+[[./img/call-graph.png]]
+
 Default keybindings are:
 
  =C-c c= Opens call graph.
