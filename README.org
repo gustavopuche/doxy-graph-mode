@@ -1,0 +1,14 @@
+#+TITLE: Emacs doxy-graph minor mode 
+
+doxy-graph-mode.el links source code to doxygen call graphs.
+
+* Requirements
+
+emacs 24.5 (or newer).
+
+* Usage
+
+You can invoque ~doxy-graph-mode~ commad =M x doxy-graph-mode=.
+ 
+=C-c c=
+=C-c i=

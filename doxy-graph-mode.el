@@ -97,8 +97,8 @@
 	(define-key doxy-graph-mode-map (kbd "<C-f1>") 'doxy-graph-help)
 	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-get-word-at-point)
 	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-file-name-base)
-	(define-key doxy-graph-mode-map (kbd "<C-f5>") 'doxy-graph-open-call-graph)
-	(define-key doxy-graph-mode-map (kbd "<C-f6>") 'doxy-graph-open-reverse-call-graph)
+	(define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
+	(define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-reverse-call-graph)
 	)
 
 ;;;###autoload
