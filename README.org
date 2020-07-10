@@ -9,6 +9,13 @@ emacs 24.5 (or newer).
 * Usage
 
 You can invoque ~doxy-graph-mode~ commad =M x doxy-graph-mode=.
- 
-=C-c c=
-=C-c i=
+
+When mini mode is active you can position the cursor over function
+name and visualize call graph and inverse call graph.
+
+Default keybindings are:
+
+ =C-c c= Opens call graph.
+
+=C-c i= Opens inverse call graph.
+
