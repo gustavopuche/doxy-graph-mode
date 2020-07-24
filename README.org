@@ -13,7 +13,7 @@ Firts of all you have to generate doxygen latex documentation
 including call graphs. To carry out this you can generate a =Doxyfile=
 config file with the command =doxygen -g= in your source code path.
 
-It is necessary to change the folowing settings inside =Doxyfile=.
+It is necessary to change the following settings inside =Doxyfile=.
 
 #+BEGIN_SRC bash
 CALL_GRAPH             = YES
