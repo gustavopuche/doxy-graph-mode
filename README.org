@@ -5,8 +5,23 @@ doxy-graph-mode.el links source code to doxygen call graphs.
 * Requirements
 
 emacs 24.5 (or newer).
+doxygen 1.8.13 (or newer).
 
 * Usage
+
+Firts of all you have to generate doxygen latex documentation
+including call graphs. To carry out this you can generate a =Doxyfile=
+config file with the command =doxygen -g= in your source code path.
+
+It is necessary to change the folowing settings inside =Doxyfile=.
+
+#+BEGIN_SRC bash
+CALL_GRAPH             = YES
+
+CALLER_GRAPH           = YES
+#+END_SRC
+
+An example of =Doxyfile= is given in this repository.
 
 You can invoque ~doxy-graph-mode~ commad =M x doxy-graph-mode=.
 
@@ -15,9 +30,17 @@ name and visualize call graph and inverse call graph.
 
 [[./img/call-graph.png]]
 
+
 Default keybindings are:
 
  =C-c c= Opens call graph.
 
 =C-c i= Opens inverse call graph.
 
+First time is called =doxy-graph-open-call-graph= or
+=doxy-graph-open-reverse-call-graph= it is asked for select doxygen
+latex folder. You can choose doxygen latex folder using the directory
+chooser.
+
+Calling the interactive function =doxy-graph-set-latex-path= you can
+change the folder where doxygen latex docs are placed.

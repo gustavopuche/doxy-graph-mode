@@ -4,14 +4,14 @@
 
 ;; Author: Gustavo Puche <gustavo.puche@gmail.com>
 ;; Created: 18 June 2020
-;; Version: 0.1
+;; Version: 0.2
 ;; Keywords: languages all
 ;; Package-Requires: 
 
 ;;; Code:
 
 ;; Latex path to concat to graph filename.
-(defvar doxy-graph--latex-path "/opt/extra/cdesktopenv-code/cde/latex/")
+(defvar doxy-graph--latex-path nil)
 
 ;; Constans
 (defvar doxy-graph--graph-suffix "_cgraph")
@@ -19,8 +19,17 @@
 (defvar doxy-graph--reverse-graph-suffix "_icgraph")
 
 ;; Sets doxygen latex path
-(defun doxy-graph-set-latex-path (path)
-	(setq doxy-graph--latex-path path)
+(defun doxy-graph-set-latex-path ()
+	(interactive)
+	(setq doxy-graph--latex-path (read-directory-name "Please choose doxygen latex folder:"))
+	)
+
+;; Gets doxygen latex path
+(defun doxy-graph-get-latex-path ()
+	(if (not (null doxy-graph--latex-path))
+			doxy-graph--latex-path
+		(doxy-graph-set-latex-path)
+			)
 	)
 
 ;; Help of doxy-graph minor mode.
@@ -56,20 +65,20 @@
 ;; Opens new buffer with pdf call graph.
 (defun doxy-graph-open-call-graph ()
 	(interactive)	
-	(find-file-other-window (concat doxy-graph--latex-path (doxy-graph-filename (thing-at-point 'word 'no-properties) "_cgraph") ".pdf"))
+	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (thing-at-point 'word 'no-properties) "_cgraph") ".pdf"))
 	)
 
 ;; Opens new buffer with pdf call graph.
 (defun doxy-graph-open-reverse-call-graph ()
 	(interactive)	
-	(find-file-other-window (concat doxy-graph--latex-path (doxy-graph-filename (thing-at-point 'word 'no-properties) "_icgraph") ".pdf"))
+	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (thing-at-point 'word 'no-properties) "_icgraph") ".pdf"))
 	)
 
 ;; Parses latex file to obtain pdf call graph.
 (defun doxy-graph-get-pdf-filename (latex-file function-name graph-type)
 	(with-temp-buffer
 		(insert-file-contents latex-file)
-		(search-forward function-name)
+		(search-forward (concat "{" function-name "()}"))
 		(search-forward "includegraphics")
 		(let
 				((end-pos (search-forward graph-type))
@@ -83,7 +92,7 @@
 ;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
 (defun doxy-graph-filename (function-name graph-type)
 	(interactive)
-	(doxy-graph-get-pdf-filename (concat doxy-graph--latex-path (doxy-graph-latex-file)) function-name graph-type)
+	(doxy-graph-get-pdf-filename (concat (doxy-graph-get-latex-path) (doxy-graph-latex-file)) function-name graph-type)
 	)
 
 ;; Keymap.
