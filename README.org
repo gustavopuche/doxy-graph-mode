@@ -1,11 +1,14 @@
 #+TITLE: Emacs doxy-graph minor mode 
 
-doxy-graph-mode.el links source code to doxygen call graphs.
+=doxy-graph-mode= links source code to doxygen call graphs.
+
+It allows to interactivelly see the call graph or the inverted call
+graph of a given function or method from source code.
 
 * Requirements
 
-emacs 24.5 (or newer).
-doxygen 1.8.13 (or newer).
+- emacs 24.5 (or newer).
+- doxygen 1.8.13 (or newer).
 
 * Usage
 
@@ -26,19 +29,19 @@ An example of =Doxyfile= is given in this repository.
 You can invoque ~doxy-graph-mode~ commad =M x doxy-graph-mode=.
 
 When mini mode is active you can position the cursor over function
-name and visualize call graph and inverse call graph.
+name and visualize call graph and inverted call graph.
 
 [[./img/call-graph.png]]
 
-
 Default keybindings are:
 
- =C-c c= Opens call graph.
+- =C-c c= Opens direct call graph.
+- =C-c i= Opens inverted call graph.
 
-=C-c i= Opens inverse call graph.
+[[./img/inverted-call-graph.png]]
 
 First time is called =doxy-graph-open-call-graph= or
-=doxy-graph-open-reverse-call-graph= it is asked for select doxygen
+=doxy-graph-open-inverted-call-graph= it is asked for select doxygen
 latex folder. You can choose doxygen latex folder using the directory
 chooser.
 

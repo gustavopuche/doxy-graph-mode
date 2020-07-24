@@ -16,7 +16,7 @@
 ;; Constans
 (defvar doxy-graph--graph-suffix "_cgraph")
 
-(defvar doxy-graph--reverse-graph-suffix "_icgraph")
+(defvar doxy-graph--inverted-graph-suffix "_icgraph")
 
 ;; Sets doxygen latex path
 (defun doxy-graph-set-latex-path ()
@@ -68,8 +68,8 @@
 	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (thing-at-point 'word 'no-properties) "_cgraph") ".pdf"))
 	)
 
-;; Opens new buffer with pdf call graph.
-(defun doxy-graph-open-reverse-call-graph ()
+;; Opens new buffer with pdf inverted call graph.
+(defun doxy-graph-open-inverted-call-graph ()
 	(interactive)	
 	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (thing-at-point 'word 'no-properties) "_icgraph") ".pdf"))
 	)
@@ -107,7 +107,7 @@
 	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-get-word-at-point)
 	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-file-name-base)
 	(define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
-	(define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-reverse-call-graph)
+	(define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-inverted-call-graph)
 	)
 
 ;;;###autoload
