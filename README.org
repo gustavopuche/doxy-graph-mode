@@ -47,3 +47,22 @@ chooser.
 
 Calling the interactive function =doxy-graph-set-latex-path= you can
 change the folder where doxygen latex docs are placed.
+
+If you wish you can change default keybindings using
+=doxy-graph-mode-map=. The following example binds =C c 1= and =C c 2=
+like default shortcuts.
+
+#+BEGIN_SRC elisp
+(define-key doxy-graph-mode-map (kbd "C-c 1") 'doxy-graph-open-call-graph)
+(define-key doxy-graph-mode-map (kbd "C-c 2") 'doxy-graph-open-inverted-call-graph)
+#+END_SRC
+
+By default =doxy-graph-mode= is setting up for =c= and =c++= languages
+with their hook. If you want to start =doxy-graph-mode= automatically
+for your favorite language you have to add =doxy-graph-mode= the
+corresponding language hook. For example the following code setup the
+hook for =python= programming in you =.emacs= file.
+
+#+BEGIN_SRC elisp
+(add-hook 'python-mode-hook 'doxy-graph-mode)
+#+END_SRC
