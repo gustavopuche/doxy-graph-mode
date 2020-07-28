@@ -1,16 +1,20 @@
-;;; doxy-graph-mode.el --- Support for doxygen graph documentation called from source code.
+;;; doxy-graph-mode.el --- Links source code editing with doxygen call graphs
 
 ;; Copiright (C) 2020 Gustavo Puche
 
 ;; Author: Gustavo Puche <gustavo.puche@gmail.com>
+;; URL: https://github.com/gustavopuche/doxy-graph-mode
 ;; Created: 18 June 2020
-;; Version: 0.5
+;; Version: 0.6
 ;; Keywords: languages all
-;; Package-Requires:
-
+;; Package-Requires: ((emacs "26.3"))
 
 ;;; Commentary:
-;; 
+
+;; doxy-graph-mode links source code to doxygen call graphs.
+
+;; It allows to interactively see the call graph or the inverted call
+;; graph of a given function or method from source code.
 
 ;;; Code:
 
@@ -29,8 +33,7 @@
 (defun doxy-graph-set-latex-path ()
 	"Opens a directory chooser and setup `doxy-graph--latex-path'."
 	(interactive)
-	(setq doxy-graph--latex-path (read-directory-name "Please choose doxygen latex folder:"))
-	)
+	(setq doxy-graph--latex-path (read-directory-name "Please choose doxygen latex folder:")))
 
 ;; Gets doxygen latex path
 (defun doxy-graph-get-latex-path ()
@@ -41,30 +44,25 @@
    latex documentation folder."
 	(if (not (null doxy-graph--latex-path))
 			doxy-graph--latex-path
-		(doxy-graph-set-latex-path)
-			)
-	)
+		(doxy-graph-set-latex-path)))
 
 ;; Gets word at cursor point
 (defun doxy-graph-get-word-at-point ()
 	"Gets word at cursor position."
 	(interactive)
-	(thing-at-point 'word 'no-properties)
-	)
+	(thing-at-point 'word 'no-properties))
 
 ;; Gets file name without folder nor extension.
 (defun doxy-graph-file-name-base ()
 	"Gets source code filename without extension."
 	(interactive)
-	(file-name-base buffer-file-name)
-	)
+	(file-name-base buffer-file-name))
 
 ;; Gets file name extension.
 (defun doxy-graph-file-name-extension ()
 	"Gets source code file extension."
 	(interactive)
-	(file-name-extension buffer-file-name)
-	)
+	(file-name-extension buffer-file-name))
 
 ;; Gets latex file.
 (defun doxy-graph-latex-file ()
@@ -73,8 +71,7 @@
 Concats [source-code-filename-base] \"_8\"
 [source-code-extension] \".tex\"."
 	(interactive)
-	(concat (doxy-graph-file-name-base) "_8" (doxy-graph-file-name-extension) ".tex")
-	)
+	(concat (doxy-graph-file-name-base) "_8" (doxy-graph-file-name-extension) ".tex"))
 
 ;; Opens new buffer with pdf call graph.
 (defun doxy-graph-open-call-graph ()
@@ -83,8 +80,10 @@ Concats [source-code-filename-base] \"_8\"
 Shows call graph of the function or method at cursor."
 
 	(interactive)
-	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (doxy-graph-get-word-at-point) "_cgraph") ".pdf"))
-	)
+	(find-file-other-window
+	 (concat (doxy-graph-get-latex-path)
+					 (doxy-graph-filename (doxy-graph-get-word-at-point) "_cgraph")
+					 ".pdf")))
 
 ;; Opens new buffer with pdf inverted call graph.
 (defun doxy-graph-open-inverted-call-graph ()
@@ -93,8 +92,10 @@ Shows call graph of the function or method at cursor."
 Shows inverted call graph of the function or method at cursor
 position."
 	(interactive)
-	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (doxy-graph-get-word-at-point) "_icgraph") ".pdf"))
-	)
+	(find-file-other-window
+	 (concat (doxy-graph-get-latex-path)
+					 (doxy-graph-filename (doxy-graph-get-word-at-point) "_icgraph")
+					 ".pdf")))
 
 ;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
 (defun doxy-graph-filename (function-name graph-type)
@@ -107,8 +108,7 @@ Argument FUNCTION-NAME is the function at cursor.
 Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 \"_icgraph\" for inverted call graph."
 	(interactive)
-	(doxy-graph-get-pdf-filename (concat (doxy-graph-get-latex-path) (doxy-graph-latex-file)) function-name graph-type)
-	)
+	(doxy-graph-get-pdf-filename (concat (doxy-graph-get-latex-path) (doxy-graph-latex-file)) function-name graph-type))
 
 ;; Parses latex file to obtain pdf call graph.
 (defun doxy-graph-get-pdf-filename (latex-file function-name graph-type)
@@ -124,14 +124,9 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 		(insert-file-contents latex-file)
 		(search-forward (concat "{" function-name "()}"))
 		(search-forward "includegraphics")
-		(let
-				((end-pos (search-forward graph-type))
-				 (begin-pos (search-backward "{"))
-				 )
-			(buffer-substring (+ begin-pos 1) end-pos)
-			)
-		)
-	)
+		(let ((end-pos (search-forward graph-type))
+					(begin-pos (search-backward "{")))
+			(buffer-substring (+ begin-pos 1) end-pos))))
 
 ;;; Keymap
 ;;
@@ -144,11 +139,8 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
   "doxy-graph-mode default keybindings."
   :lighter " doxy-graph"
   :keymap  doxy-graph-mode-map
-	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-get-word-at-point)
-	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-file-name-base)
-	(define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
-	(define-key doxy-graph-mode-map (kbd "C-c i") 'do1xy-graph-open-inverted-call-graph)
-	)
+	(define-key doxy-graph-mode-map (kbd "<C-f1>") 'doxy-graph-open-call-graph)
+	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'do1xy-graph-open-inverted-call-graph))
 
 ;;;###autoload
 (add-hook 'c-mode-hook 'doxy-graph-mode)
