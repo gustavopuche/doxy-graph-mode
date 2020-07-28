@@ -4,7 +4,7 @@
 
 ;; Author: Gustavo Puche <gustavo.puche@gmail.com>
 ;; Created: 18 June 2020
-;; Version: 0.3
+;; Version: 0.4
 ;; Keywords: languages all
 ;; Package-Requires: 
 
