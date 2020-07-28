@@ -6,7 +6,11 @@
 ;; Created: 18 June 2020
 ;; Version: 0.5
 ;; Keywords: languages all
-;; Package-Requires: 
+;; Package-Requires:
+
+
+;;; Commentary:
+;; 
 
 ;;; Code:
 
@@ -23,17 +27,17 @@
 
 ;; Sets doxygen latex path
 (defun doxy-graph-set-latex-path ()
-	"Opens a directory chooser and setup doxy-graph--latex-path."
+	"Opens a directory chooser and setup `doxy-graph--latex-path'."
 	(interactive)
 	(setq doxy-graph--latex-path (read-directory-name "Please choose doxygen latex folder:"))
 	)
 
 ;; Gets doxygen latex path
 (defun doxy-graph-get-latex-path ()
-	"Returns string with current doxygen latex path.
+	"Gets current doxygen latex path.
 
-   If doxy-graph--latex-path is set returns it If not calls
-   doxy-graph-set-latex-path to allow user choose project doxygen
+   If `doxy-graph--latex-path' is set returns it If not calls
+   `doxy-graph-set-latex-path' to allow user choose project doxygen
    latex documentation folder."
 	(if (not (null doxy-graph--latex-path))
 			doxy-graph--latex-path
@@ -74,24 +78,34 @@ Concats [source-code-filename-base] \"_8\"
 
 ;; Opens new buffer with pdf call graph.
 (defun doxy-graph-open-call-graph ()
-	"Opens pdf call graph of the function or method at cursor
-position."
-	(interactive)	
+	"Opens pdf call graph.
+
+Shows call graph of the function or method at cursor."
+
+	(interactive)
 	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (doxy-graph-get-word-at-point) "_cgraph") ".pdf"))
 	)
 
 ;; Opens new buffer with pdf inverted call graph.
 (defun doxy-graph-open-inverted-call-graph ()
-	"Opens pdf inverted call graph of the function or method at
-cursor position."
-	(interactive)	
+	"Opens pdf inverted call graph.
+
+Shows inverted call graph of the function or method at cursor
+position."
+	(interactive)
 	(find-file-other-window (concat (doxy-graph-get-latex-path) (doxy-graph-filename (doxy-graph-get-word-at-point) "_icgraph") ".pdf"))
 	)
 
 ;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
 (defun doxy-graph-filename (function-name graph-type)
-	"Gets pdf call graph filename by concatenating latex path with
-pdf call graph filename."
+	"Gets pdf call graph filename.
+
+Concatenates latex path with pdf call graph filename.
+
+Argument FUNCTION-NAME is the function at cursor.
+
+Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
+\"_icgraph\" for inverted call graph."
 	(interactive)
 	(doxy-graph-get-pdf-filename (concat (doxy-graph-get-latex-path) (doxy-graph-latex-file)) function-name graph-type)
 	)
@@ -100,7 +114,11 @@ pdf call graph filename."
 (defun doxy-graph-get-pdf-filename (latex-file function-name graph-type)
 	"Parses latex file and gets pdf filename to graph-type.
 
-GRAPH-TYPE can be \"_cgraph\" to regular call graph and
+Argument LATEX-FILE is the latex file in which it parses pdf graph filename.
+
+Argument FUNCTION-NAME is the function at cursor.
+
+Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 \"_icgraph\" for inverted call graph."
 	(with-temp-buffer
 		(insert-file-contents latex-file)
@@ -129,7 +147,7 @@ GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-get-word-at-point)
 	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-file-name-base)
 	(define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
-	(define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-inverted-call-graph)
+	(define-key doxy-graph-mode-map (kbd "C-c i") 'do1xy-graph-open-inverted-call-graph)
 	)
 
 ;;;###autoload
@@ -139,3 +157,7 @@ GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 (add-hook 'c++-mode-hook 'doxy-graph-mode)
 
 (provide 'doxy-graph-mode)
+
+(provide 'doxy-graph-mode)
+
+;;; doxy-graph-mode.el ends here
