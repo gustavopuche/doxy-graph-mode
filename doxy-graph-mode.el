@@ -150,6 +150,4 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 
 (provide 'doxy-graph-mode)
 
-(provide 'doxy-graph-mode)
-
 ;;; doxy-graph-mode.el ends here
