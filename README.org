@@ -7,7 +7,7 @@ graph of a given function or method from source code.
 
 * Requirements
 
-- emacs 24.5 (or newer).
+- emacs 26.3 (or newer).
 - doxygen 1.8.13 (or newer).
 
 * Usage
@@ -35,8 +35,8 @@ name and visualize call graph and inverted call graph.
 
 Default keybindings are:
 
-- =C-c c= Opens direct call graph.
-- =C-c i= Opens inverted call graph.
+- =<C-f1>= Opens direct call graph.
+- =<C-f2>= Opens inverted call graph.
 
 [[./img/inverted-call-graph.png]]
 
@@ -49,12 +49,12 @@ Calling the interactive function =doxy-graph-set-latex-path= you can
 change the folder where doxygen latex docs are placed.
 
 If you wish you can change default keybindings using
-=doxy-graph-mode-map=. The following example binds =C c 1= and =C c 2=
+=doxy-graph-mode-map=. The following example binds =C c c= and =C c i=
 like default shortcuts.
 
 #+BEGIN_SRC elisp
-(define-key doxy-graph-mode-map (kbd "C-c 1") 'doxy-graph-open-call-graph)
-(define-key doxy-graph-mode-map (kbd "C-c 2") 'doxy-graph-open-inverted-call-graph)
+(define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
+(define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-inverted-call-graph)
 #+END_SRC
 
 By default =doxy-graph-mode= is setting up for =c= and =c++= languages
