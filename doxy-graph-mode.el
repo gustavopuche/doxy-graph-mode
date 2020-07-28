@@ -4,7 +4,7 @@
 
 ;; Author: Gustavo Puche <gustavo.puche@gmail.com>
 ;; Created: 18 June 2020
-;; Version: 0.4
+;; Version: 0.5
 ;; Keywords: languages all
 ;; Package-Requires: 
 
@@ -118,7 +118,8 @@ GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 ;;; Keymap
 ;;
 ;;
-(defvar doxy-graph-mode-map (make-sparse-keymap))
+(defvar doxy-graph-mode-map (make-sparse-keymap)
+	"Keybindings variable.")
 
 ;;;###autoload
 (define-minor-mode doxy-graph-mode
