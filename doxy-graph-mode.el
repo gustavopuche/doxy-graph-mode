@@ -5,7 +5,7 @@
 ;; Author: Gustavo Puche <gustavo.puche@gmail.com>
 ;; URL: https://github.com/gustavopuche/doxy-graph-mode
 ;; Created: 18 June 2020
-;; Version: 0.6
+;; Version: 0.7
 ;; Keywords: languages all
 ;; Package-Requires: ((emacs "26.3"))
 
@@ -122,11 +122,16 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 \"_icgraph\" for inverted call graph."
 	(with-temp-buffer
 		(insert-file-contents latex-file)
-		(search-forward (concat "{" function-name "()}"))
-		(search-forward "includegraphics")
-		(let ((end-pos (search-forward graph-type))
-					(begin-pos (search-backward "{")))
-			(buffer-substring (+ begin-pos 1) end-pos))))
+		(let ((first-pos (search-forward (concat "{" function-name "()}")))
+					(end-pos (search-forward graph-type))
+					(begin-pos (search-backward "{"))
+					(subsubsection-pos (search-backward "subsubsection")))
+			(if (< subsubsection-pos first-pos)
+					(buffer-substring (+ begin-pos 1) end-pos)
+			(progn
+				(if (equal graph-type "_cgraph")
+						(error "Call graph NOT Found!")
+					(error "Inverted call graph NOT Found!")))))))
 
 ;;; Keymap
 ;;
