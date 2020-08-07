@@ -10,6 +10,21 @@ graph of a given function or method from source code.
 - emacs 26.3 (or newer).
 - doxygen 1.8.13 (or newer).
 
+* Basic Setup
+
+After getting doxy-graph-mode.el you can add some of this lines to your =.emacs= file
+if you want that doxy-graph-mode auto-loads when c-mode, c++-mode or python-mode are enabled.
+
+#+BEGIN_SRC elisp
+(require 'doxy-graph-mode)
+
+(add-hook 'c-mode-hook 'doxy-graph-mode)
+(add-hook 'c++-mode-hook 'doxy-graph-mode)
+(add-hook 'python-mode-hook 'doxy-graph-mode)
+#+END_SRC
+
+You can add a hook for another one of the languages supported by doxygen.
+
 * Usage
 
 Firts of all you have to generate doxygen latex documentation
@@ -55,14 +70,4 @@ like default shortcuts.
 #+BEGIN_SRC elisp
 (define-key doxy-graph-mode-map (kbd "C-c c") 'doxy-graph-open-call-graph)
 (define-key doxy-graph-mode-map (kbd "C-c i") 'doxy-graph-open-inverted-call-graph)
-#+END_SRC
-
-By default =doxy-graph-mode= is setting up for =c= and =c++= languages
-with their hook. If you want to start =doxy-graph-mode= automatically
-for your favorite language you have to add =doxy-graph-mode= the
-corresponding language hook. For example the following code setup the
-hook for =python= programming in you =.emacs= file.
-
-#+BEGIN_SRC elisp
-(add-hook 'python-mode-hook 'doxy-graph-mode)
 #+END_SRC
