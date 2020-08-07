@@ -161,12 +161,6 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
 	(define-key doxy-graph-mode-map (kbd "<C-f1>") 'doxy-graph-open-call-graph)
 	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-open-inverted-call-graph))
 
-;;;###autoload
-(add-hook 'c-mode-hook 'doxy-graph-mode)
-
-;;;###autoload
-(add-hook 'c++-mode-hook 'doxy-graph-mode)
-
 (provide 'doxy-graph-mode)
 
 ;;; doxy-graph-mode.el ends here
