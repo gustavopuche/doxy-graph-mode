@@ -99,6 +99,50 @@ Shows call graph of the function or method at cursor."
 					 (doxy-graph-filename (doxy-graph-get-word-at-point) "_cgraph")
 					 ".pdf")))
 
+;; Opens new buffer with pdf call graph.
+;; Cpp class version.
+(defun doxy-graph-open-cpp-class-call-graph ()
+	"Opens pdf call graph in cpp class.
+
+Shows call graph of the function or method at cursor."
+
+	(interactive)
+	(find-file-other-window
+	 (concat (doxy-graph-get-latex-path)
+					 (doxy-graph-cpp-class-filename (doxy-graph-get-word-at-point) (doxy-graph-get-cpp-class) "_cgraph")
+					 ".pdf")))
+
+;; Opens new buffer with pdf inverted call graph.
+;; Cpp class version.
+(defun doxy-graph-open-cpp-class-inverted-call-graph ()
+	"Opens pdf call graph in cpp class.
+
+Shows iverted call graph of the function or method at cursor."
+
+	(interactive)
+	(find-file-other-window
+	 (concat (doxy-graph-get-latex-path)
+					 (doxy-graph-cpp-class-filename (doxy-graph-get-word-at-point) (doxy-graph-get-cpp-class) "_icgraph")
+					 ".pdf")))
+
+;; Gets class name in cpp file before :: at word-at-point
+(defun doxy-graph-get-cpp-class ()
+	"Gets class before :: word at cursor position."
+	(interactive)
+	(if (equal (doxy-graph-file-name-extension) "h")
+			(progn
+				(message "Source extension: h")
+				(search-backward "class")
+				(right-word)
+				(right-word)
+				(left-word))
+		(progn
+			(message "Source extension: cpp")
+			(left-word)
+			(left-word)))
+	
+	(thing-at-point 'word 'no-properties))
+
 ;; Opens new buffer with pdf inverted call graph.
 (defun doxy-graph-open-inverted-call-graph ()
 	"Opens pdf inverted call graph.
@@ -110,6 +154,20 @@ position."
 	 (concat (doxy-graph-get-latex-path)
 					 (doxy-graph-filename (doxy-graph-get-word-at-point) "_icgraph")
 					 ".pdf")))
+
+;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
+(defun doxy-graph-cpp-class-filename (function-name class-name graph-type)
+	"Gets pdf call graph filename.
+
+Concatenates latex path with pdf call graph filename.
+
+Argument FUNCTION-NAME is the function at cursor.
+
+Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
+\"_icgraph\" for inverted call graph."
+	(interactive)
+	(message (car (file-expand-wildcards (concat (doxy-graph-get-latex-path) "*" class-name ".tex"))))
+	(doxy-graph-get-pdf-filename (car (file-expand-wildcards (concat (doxy-graph-get-latex-path) "*" class-name ".tex"))) function-name graph-type))
 
 ;; Calls doxy-graph-gets-pdf-filename (latex-file function-name)
 (defun doxy-graph-filename (function-name graph-type)
@@ -159,7 +217,9 @@ Argument GRAPH-TYPE can be \"_cgraph\" to regular call graph and
   :lighter " doxy-graph"
   :keymap  doxy-graph-mode-map
 	(define-key doxy-graph-mode-map (kbd "<C-f1>") 'doxy-graph-open-call-graph)
-	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-open-inverted-call-graph))
+	(define-key doxy-graph-mode-map (kbd "<C-f2>") 'doxy-graph-open-inverted-call-graph)
+	(define-key doxy-graph-mode-map (kbd "<C-f3>") 'doxy-graph-open-cpp-class-call-graph)
+	(define-key doxy-graph-mode-map (kbd "<C-f4>") 'doxy-graph-open-cpp-class-inverted-call-graph))
 
 (provide 'doxy-graph-mode)
 
